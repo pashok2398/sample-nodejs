@@ -1,0 +1,20 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ .Release.Name }}-ingress
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    kubernetes.io/ingress.class: "traefik"
+    traefik.ingress.kubernetes.io/router.middlewares: "{{ .Release.Namespace }}-{{ .Release.Name }}-auth-middleware@kubernetescrd"
+spec:
+  rules:
+  - host: {{ .Values.ingress.hostname | quote }}
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: {{ .Release.Name }}
+            port:
+              number: {{ .Values.service.port }}
