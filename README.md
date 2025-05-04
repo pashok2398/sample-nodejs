@@ -17,6 +17,14 @@ Deploy a secured Node.js app behind Traefik Ingress with Basic Authentication us
 - Helm installed (`v3` or higher)
 - `openssl` and `htpasswd` available locally (`brew install httpd` on Mac)
 
+> ℹ️ **Note:** For a lightweight Kubernetes installation, you can install K3s:
+>
+> ```bash
+> curl -sfL https://get.k3s.io | sh -
+> ```
+>
+> This will install a single-node Kubernetes cluster with Traefik preinstalled.
+
 ---
 
 ### 2. Deploy the application
@@ -28,6 +36,7 @@ Run:
 ```
 
 ✅ This script will:
+
 - Prompt for username and password
 - Generate secure htpasswd entry
 - Create Kubernetes Secret and Middleware
@@ -53,11 +62,11 @@ https://paveld-rads.druyan.net
 
 Edit `values.yaml` to change:
 
-| Field | Purpose |
-|-------|---------|
-| `ingress.hostname` | Set your custom domain |
-| `service.port` | Adjust exposed application port |
-| `basicAuth.users` | (auto-filled during runme.sh) |
+| Field              | Purpose                         |
+| ------------------ | ------------------------------- |
+| `ingress.hostname` | Set your custom domain          |
+| `service.port`     | Adjust exposed application port |
+| `basicAuth.users`  | (auto-filled during runme.sh)   |
 
 ---
 
