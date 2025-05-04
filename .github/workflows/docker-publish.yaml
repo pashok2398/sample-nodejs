@@ -11,10 +11,10 @@ env:
   IMAGE_NAME: pashok2398/paveld-rads
 
 jobs:
-  build:
+  publish:
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write
       packages: write
       id-token: write
 
