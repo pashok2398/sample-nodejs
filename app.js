@@ -6,8 +6,6 @@ const port = process.env.PORT || 8080;
 
 // Create a Registry to register the metrics
 const register = new promClient.Registry();
-
-// Enable the collection of default metrics
 promClient.collectDefaultMetrics({ register });
 
 const helloWorldCounter = new promClient.Counter({
@@ -15,8 +13,6 @@ const helloWorldCounter = new promClient.Counter({
     help: 'Total number of accesses to the root path',
 });
 register.registerMetric(helloWorldCounter);
-
-
 
 // Define routes
 app.get('/my-app', (req, res) => {
@@ -45,6 +41,11 @@ app.get('/metrics', async (req, res) => {
     res.end(await register.metrics());
 });
 
-app.listen(port, () => {
-    console.log(`Server running on port ${port}`);
-});
+// 👇 Only listen when run directly, not when required in test
+if (require.main === module) {
+    app.listen(port, () => {
+        console.log(`Server running on port ${port}`);
+    });
+}
+
+module.exports = app;
