@@ -3,8 +3,8 @@ name: Docker
 on:
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+  # pull_request:
+  #   branches: [ "main" ]
 
 env:
   REGISTRY: docker.io
@@ -25,11 +25,9 @@ jobs:
       - name: Bump version and push tag
         if: github.event_name == 'push'
         id: bump_version
-        uses: phips28/gh-action-bump-version@v11.0.7
-        with:
-          tag-prefix: ''
+        uses: phips28/gh-action-bump-version@master
         env:
-          GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Install cosign
         if: github.event_name != 'pull_request'
