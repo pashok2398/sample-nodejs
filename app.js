@@ -42,8 +42,8 @@ app.get('/metrics', async (req, res) => {
 });
 
 const path = require('path');
-app.get('/openapi.yaml', (req, res) => {
-  res.sendFile(path.join(__dirname, 'openapi.yaml'));
+app.get('/openapi.json', (req, res) => {
+  res.sendFile(path.join(__dirname, 'openapi.json'));
 });
 
 
