@@ -1,18 +1,28 @@
-name: Docker
+name: Full CI and Docker Publish
 
 on:
-  workflow_run:
-    workflows: ["Node.js CI", "SAST", "Container Image Scan"]
-    types:
-      - completed
+  workflow_dispatch:
+  push:
+    branches: [main]
 
 env:
   REGISTRY: docker.io
   IMAGE_NAME: pashok2398/paveld-rads
 
 jobs:
-  publish:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+  nodejs:
+    uses: ./.github/workflows/node-ci.yaml
+
+  sast:
+    uses: ./.github/workflows/sast.yaml
+
+  container_scan:
+    uses: ./.github/workflows/container-scan.yaml
+
+  docker_publish:
+    name: Build and Publish Docker
+    needs: [nodejs, sast, container_scan]
+    if: ${{ success() }}
     runs-on: ubuntu-latest
     permissions:
       contents: write
