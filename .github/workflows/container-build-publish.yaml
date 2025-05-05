@@ -1,7 +1,7 @@
 name: Docker
 
 on:
-  workflow_run:
+  workflow_call:
 
 env:
   REGISTRY: docker.io
