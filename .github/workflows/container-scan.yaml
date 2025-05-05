@@ -9,19 +9,23 @@ permissions:
   contents: read
 
 jobs:
-  grype:
-    name: Grype Scan
+  Anchore-Build-Scan:
+    permissions:
+      contents: read # for actions/checkout to fetch code
+      security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
     runs-on: ubuntu-latest
-
     steps:
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3.0.0
-        
+      - name: Check out the code
+        uses: actions/checkout@v4
+
+      - name: Build the Docker image
+        run: docker build . --file Dockerfile --tag localbuild/testimage:latest
+
       - name: Run the Anchore Grype scan action
         uses: anchore/scan-action@v6
         id: scan
         with:
-          image: "docker.io/pashok2398/paveld-rads:${{ github.event.workflow_run.head_commit.message }}"
+          image: "localbuild/testimage:latest"
           fail-build: true
           severity-cutoff: high
           only-fixed: true
