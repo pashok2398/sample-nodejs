@@ -16,14 +16,12 @@ B64_USERS=$(echo -n "$HTPASSWD" | base64)
 # Variables
 NAMESPACE=${NS:-default}
 RELEASE_NAME="paveld-rads"
-CHART_DIR="./helm"
+CHART_DIR=""
 
 echo "Deploying Helm chart..."
 
-helm upgrade --install $RELEASE_NAME $CHART_DIR \
-  --namespace $NAMESPACE \
-  --create-namespace \
-  --set basicAuth.users="$B64_USERS" \
+helm upgrade --install paveld-rads ./helm \
   --set ingress.hostname="paveld-rads.druyan.net"
+  --set image.tag="latest"
 
 echo "Deployment finished successfully!"

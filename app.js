@@ -41,6 +41,12 @@ app.get('/metrics', async (req, res) => {
     res.end(await register.metrics());
 });
 
+const path = require('path');
+app.get('/openapi.yaml', (req, res) => {
+  res.sendFile(path.join(__dirname, 'openapi.yaml'));
+});
+
+
 // 👇 Only listen when run directly, not when required in test
 if (require.main === module) {
     app.listen(port, () => {

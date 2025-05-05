@@ -70,3 +70,13 @@ jobs:
           TAGS: ${{ steps.meta.outputs.tags }}
           DIGEST: ${{ steps.build-and-push.outputs.digest }}
         run: echo "${TAGS}" | xargs -I {} cosign sign --yes {}@${DIGEST}
+
+      - name: Update image tag in GitOps repo
+        run: |
+          git clone https://x-access-token:${{ secrets.PERSONAL_ACCESS_TOKEN }}@github.com/pashok2398/paveld-rads-gitops.git
+          cd paveld-rads-gitops/sample-nodejs
+          yq -i '.image.tag = "${{ steps.bump_version.outputs.newTag }}"' values.yaml
+          git config user.name "CI Bot"
+          git config user.email "ci@paveldrci.local"
+          git commit -am "ci: update image tag to ${{ steps.bump_version.outputs.newTag }}"
+          git push origin main
