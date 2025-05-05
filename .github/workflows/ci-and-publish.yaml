@@ -17,5 +17,6 @@ jobs:
 
   docker_publish:
     needs: [nodejs, sast, container_scan]
+    if: ${{ success() }}
     uses: ./.github/workflows/container-build-publish.yaml
     secrets: inherit
