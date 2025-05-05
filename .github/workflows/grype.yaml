@@ -1,14 +1,13 @@
 name: Container Image Scan
 
 on:
-  workflow_run:
-    workflows: ["Docker"]
-    types:
-      - completed
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
 
 jobs:
   grype:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     name: Grype Scan
     runs-on: ubuntu-latest
 

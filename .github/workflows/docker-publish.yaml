@@ -22,7 +22,7 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
+  
       - name: Bump version and push tag
         id: bump_version
         uses: phips28/gh-action-bump-version@v11.0.7
