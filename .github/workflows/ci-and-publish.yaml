@@ -17,5 +17,5 @@ jobs:
 
   docker_publish:
     needs: [nodejs, sast, container_scan]
-    uses: ./.github/workflows/docker-publish.yaml
+    uses: ./.github/workflows/container-build-publish.yaml
     secrets: inherit
