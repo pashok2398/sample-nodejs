@@ -45,6 +45,21 @@ app.get('/metrics', async (req, res) => {
     res.end(await register.metrics());
 });
 
+const path = require('path');
+const swaggerUi = require('swagger-ui-express');
+const YAML = require('yamljs');
+const openapiDocument = YAML.load(path.join(__dirname, 'openapi.yaml'));
+
+// Serve raw YAML file
+app.get('/openapi.yaml', (req, res) => {
+  res.sendFile(path.join(__dirname, 'openapi.yaml'));
+});
+
+// Serve Swagger UI
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(openapiDocument));
+
+// 👇 Only listen when run directly, not when required in test
+
 if (require.main === module) {
     app.listen(port, () => {
         console.log(`Server running on port ${port}`);
