@@ -24,6 +24,12 @@ jobs:
           oas-file: openapi.yaml
           email: "pavel@druyan.net"
           sarif-result-file: "ethicalcheck-results.sarif"
+          
+      - name: Check SARIF file
+        run: |
+          echo "Checking ethicalcheck-results.sarif..."
+          ls -lh ethicalcheck-results.sarif || echo "File not found"
+          cat ethicalcheck-results.sarif || echo "File is empty or invalid"
 
       - name: Upload SARIF file to GitHub Security tab
         uses: github/codeql-action/upload-sarif@v3
