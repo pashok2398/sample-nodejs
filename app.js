@@ -46,17 +46,12 @@ app.get('/metrics', async (req, res) => {
 });
 
 const path = require('path');
-const swaggerUi = require('swagger-ui-express');
-const YAML = require('yamljs');
-const openapiDocument = YAML.load(path.join(__dirname, 'openapi.yaml'));
 
-// Serve raw YAML file
-app.get('/openapi.yaml', (req, res) => {
-  res.sendFile(path.join(__dirname, 'openapi.yaml'));
-});
-
-// Serve Swagger UI
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(openapiDocument));
+// Serve raw OpenAPI YAML at /api-docs
+app.get('/api-docs', (req, res) => {
+    res.setHeader('Content-Type', 'application/yaml');
+    res.sendFile(path.join(__dirname, 'openapi.yaml'));
+  });
 
 // 👇 Only listen when run directly, not when required in test
 
