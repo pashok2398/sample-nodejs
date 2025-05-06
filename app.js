@@ -47,7 +47,7 @@ app.get('/metrics', async (req, res) => {
 
 const path = require('path');
 
-app.get('/v2/api-docs', (req, res) => {
+app.get('/api-docs', (req, res) => {
     res.setHeader('Content-Type', 'application/json');
     res.sendFile(path.join(__dirname, 'openapi.json'));
   });
