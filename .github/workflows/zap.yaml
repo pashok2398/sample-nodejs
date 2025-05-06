@@ -1,38 +1,25 @@
 name: DAST
 
 on:
-  schedule:
-    - cron: '0 0 * * *'
-
   workflow_dispatch:
-
+  schedule:
+    - cron: '0 0 * * *'  # Daily at midnight
 
 jobs:
-  Trigger_EthicalCheck:
+  zap_api_scan:
     runs-on: ubuntu-latest
 
-    permissions:
-      contents: read
-      security-events: write
-
     steps:
-      - uses: actions/checkout@v4
-
-      - name: Run EthicalCheck
-        uses: apisec-inc/ethicalcheck-action@005fac321dd843682b1af6b72f30caaf9952c641
+      - name: Run ZAP API Scan
+        uses: zaproxy/action-api-scan@v0.7.0
         with:
-          oas-url: https://paveld-rads.druyan.net/api-docs
-          email: "pavel@druyan.net"
-          sarif-result-file: "ethicalcheck-results.sarif"
+          target: https://paveld-rads.druyan.net/api-docs
+          format: openapi
+          fail_action: false  # Let the pipeline pass even if issues found
+          cmd_options: '-noringtone -config api.disablekey=true'
 
-      - name: Check SARIF file
-        run: |
-          echo "Checking ethicalcheck-results.sarif..."
-          ls -lh ethicalcheck-results.sarif || echo "File not found"
-          cat ethicalcheck-results.sarif || echo "File is empty or invalid"
-
-      - name: Upload SARIF file to GitHub Security tab
-        uses: github/codeql-action/upload-sarif@v3
+      - name: Upload ZAP HTML Report
+        uses: actions/upload-artifact@v3
         with:
-          sarif_file: ethicalcheck-results.sarif
-
+          name: zap-report
+          path: owasp-zap-report.html

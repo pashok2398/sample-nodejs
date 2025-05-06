@@ -47,10 +47,9 @@ app.get('/metrics', async (req, res) => {
 
 const path = require('path');
 
-// Serve raw OpenAPI YAML at /api-docs
-app.get('/api-docs', (req, res) => {
-    res.setHeader('Content-Type', 'application/yaml');
-    res.sendFile(path.join(__dirname, 'openapi.yaml'));
+app.get('/v2/api-docs', (req, res) => {
+    res.setHeader('Content-Type', 'application/json');
+    res.sendFile(path.join(__dirname, 'openapi.json'));
   });
 
 // 👇 Only listen when run directly, not when required in test
