@@ -19,7 +19,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Run EthicalCheck
-        uses: apisec-inc/ethicalcheck-action@v2.2.0
+        uses: apisec-inc/ethicalcheck-action@005fac321dd843682b1af6b72f30caaf9952c641
         with:
           oas-file: openapi.yaml
           email: "pavel@druyan.net"
