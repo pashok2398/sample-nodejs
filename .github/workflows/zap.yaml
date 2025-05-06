@@ -21,10 +21,10 @@ jobs:
       - name: Run EthicalCheck
         uses: apisec-inc/ethicalcheck-action@005fac321dd843682b1af6b72f30caaf9952c641
         with:
-          oas-file: openapi.yaml
+          oas-url: https://paveld-rads.druyan.net/api-docs
           email: "pavel@druyan.net"
           sarif-result-file: "ethicalcheck-results.sarif"
-          
+
       - name: Check SARIF file
         run: |
           echo "Checking ethicalcheck-results.sarif..."
