@@ -1,25 +1,25 @@
-name: DAST
+# name: DAST
 
-on:
-  workflow_dispatch:
-  schedule:
-    - cron: '0 0 * * *'  # Daily at midnight
+# on:
+#   workflow_dispatch:
+#   schedule:
+#     - cron: '0 0 * * *'  # Daily at midnight
 
-jobs:
-  zap_api_scan:
-    runs-on: ubuntu-latest
+# jobs:
+#   zap_api_scan:
+#     runs-on: ubuntu-latest
 
-    steps:
-      - name: Run ZAP API Scan
-        uses: zaproxy/action-api-scan@v0.7.0
-        with:
-          target: https://paveld-rads.druyan.net/api-docs
-          format: openapi
-          fail_action: false  # Let the pipeline pass even if issues found
-          cmd_options: '-noringtone -config api.disablekey=true'
+#     steps:
+#       - name: Run ZAP API Scan
+#         uses: zaproxy/action-api-scan@v0.7.0
+#         with:
+#           target: https://paveld-rads.druyan.net/api-docs
+#           format: openapi
+#           fail_action: false  # Let the pipeline pass even if issues found
+#           cmd_options: '-noringtone -config api.disablekey=true'
 
-      - name: Upload ZAP HTML Report
-        uses: actions/upload-artifact@v3
-        with:
-          name: zap-report
-          path: owasp-zap-report.html
+#       - name: Upload ZAP HTML Report
+#         uses: actions/upload-artifact@v3
+#         with:
+#           name: zap-report
+#           path: owasp-zap-report.html
